@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maize Maturity Predictor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a56db;
+            --primary-dark: #1e40af;
+            --secondary: #f0f4f8;
+            --text: #1f2937;
+            --light-text: #6b7280;
+            --highlight: #2563eb;
+            --background: #ffffff;
+            --section-bg: #f9fafb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: var(--background);
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--light-text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--background);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary-dark);
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 6rem;
+            background: linear-gradient(to bottom right, #f0f7ff, white);
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+        }
+
+        /* Hero collage style */
+        .hero-collage {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1rem;
+        }
+
+        .hero-collage-item {
+            position: relative;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-collage-item:hover {
+            transform: scale(1.03);
+        }
+
+        .hero-collage-item img {
+            width: 100%;
+            border-radius: 1rem;
+            display: block;
+        }
+
+        .highlight {
+            color: var(--primary);
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #e0edff;
+            color: var(--primary-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background-color: var(--section-bg);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header p {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            background-color: rgba(26, 86, 219, 0.1);
+            color: var(--primary);
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon i {
+            font-size: 1.5rem;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 6rem 0;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 2.5rem;
+            left: 3rem;
+            right: 3rem;
+            height: 2px;
+            background-color: #e5e7eb;
+            z-index: -1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 25%;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 700;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Demo */
+        .demo {
+            padding: 6rem 0;
+            background-color: var(--section-bg);
+        }
+
+        .demo-container {
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .demo-content {
+            flex: 1;
+        }
+
+        .demo-collage {
+            flex: 1;
+        }
+
+        .collage-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1rem;
+            max-width: 600px;
+        }
+
+        .collage-item {
+            position: relative;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .collage-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .collage-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            aspect-ratio: 3/4;
+            display: block;
+        }
+
+        .collage-item .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+            padding: 1rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            padding: 6rem 0;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+        }
+
+        .tech-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+
+        .tech-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            background-color: rgba(26, 86, 219, 0.1);
+            color: var(--primary);
+            border-radius: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .tech-icon i {
+            font-size: 1.5rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 6rem 0;
+            background: linear-gradient(to right, var(--primary), var(--highlight));
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta p {
+            color: rgba(255,255,255,0.9);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .cta .btn {
+            background-color: white;
+            color: var(--primary);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        .cta .btn:hover {
+            background-color: rgba(255,255,255,0.9);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .footer-info {
+            max-width: 300px;
+        }
+
+        .footer-links h3 {
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.875rem;
+        }
+
+        /* Image Modal Styles */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            margin: auto;
+            display: block;
+            animation: zoom 0.3s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        @keyframes zoom {
+            from {transform: scale(0.1)}
+            to {transform: scale(1)}
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            z-index: 1001;
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-content, .demo-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .hero-image, .demo-collage {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            .collage-grid {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+
+            .features-grid, .tech-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .steps::before {
+                display: none;
+            }
+
+            .step {
+                width: 100%;
+            }
+
+            .collage-grid {
+                grid-template-columns: 1fr;
+                max-width: 320px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .nav-links li {
+                margin: 0 1rem;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animated {
+            animation: fadeIn 1s ease-out;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                Maize Maturity Predictor
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#tech-stack">Tech Stack</a></li>
+                <li><a href="#demo">Demo</a></li>
+            </ul>
+            <a href="https://maize-maturity-predictor-cpbmuwg9xcbevp5dt8ctdf.streamlit.app/" class="btn">Try the Web-App</a>
+        </nav>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <div class="hero-content animated">
+            <div class="hero-text">
+                <div class="badge">AI-Powered Agricultural Tool</div>
+                <h1>Predict Maize Maturity with <span class="highlight">Machine Learning</span></h1>
+                <p>The Blue Maize Maturity Predictor is an intelligent web based application that uses RGB color analysis and environmental factors to determine if maize crops are mature or immature, helping farmers optimize harvest timing.</p>
+                <a href="#features" class="btn">Explore Features</a>
+                <a href="#tech-stack" class="btn btn-outline" style="margin-left: 1rem;">Tech Details</a>
+            </div>
+            <div class="hero-image">
+                <div class="hero-collage">
+                    <div class="hero-collage-item" onclick="openModal('img/interface3.jpg', 'Main Interface')">
+                        <img src="img/interface3.jpg" alt="Maize Maturity Predictor Interface">
+                    </div>
+                    <div class="hero-collage-item" onclick="openModal('img/rgb.jpg', 'RGB Analysis Panel')">
+                        <img src="img/rgb.jpg" alt="RGB Analysis Interface">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features" id="features">
+    <div class="container">
+        <div class="section-header">
+            <h2>Powerful Features</h2>
+            <p> This web based application combines machine learning model with an interactive interface to deliver accurate maize maturity predictions.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h3>RGB Color Analysis</h3>
+                <p>Upload images or manually enter RGB values to analyze maize coloration patterns that indicate maturity.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-temperature-high"></i>
+                </div>
+                <h3>Environmental Factors</h3>
+                <p>Account for temperature and humidity conditions that affect maize development and maturation.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>ML-Powered Predictions</h3>
+                <p>Random Forest model delivers accurate maturity predictions based on multiple input factors.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Prediction History</h3>
+                <p>Track and compare previous predictions to monitor crop development over time.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3>Chat Assistant</h3>
+                <p>Get guidance and explanations from our dedicated maize assistant chatbot.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-file-export"></i>
+                </div>
+                <h3>Data Export</h3>
+                <p>Export prediction history as CSV files for further analysis and record-keeping.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="how-it-works" id="how-it-works">
+    <div class="container">
+        <div class="section-header">
+            <h2>How It Works</h2>
+            <p>This web based application follows a simple four-step process to deliver accurate maize maturity predictions.</p>
+        </div>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Input Method</h3>
+                <p>Choose between manual RGB entry or image upload for color analysis.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Environmental Data</h3>
+                <p>Set temperature and humidity values to account for growing conditions.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Analysis</h3>
+                <p>ML model processes the color and environmental inputs.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Results</h3>
+                <p>Receive mature/immature prediction and save to history for tracking.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="demo" id="demo">
+    <div class="container">
+        <div class="demo-container">
+            <div class="demo-content">
+                <h2>See the Predictor in Action</h2>
+                <p> Dual-tabbed interface makes it easy to analyze maize maturity and get advice from Maize Assistant.</p>
+                <ul style="margin-bottom: 2rem; padding-left: 1.5rem;">
+                    <li style="margin-bottom: 0.5rem;">Upload your own maize images for instant analysis</li>
+                    <li style="margin-bottom: 0.5rem;">View color channel breakdowns with heat maps</li>
+                    <li style="margin-bottom: 0.5rem;">Chat with specialized maize assistant</li>
+                    <li style="margin-bottom: 0.5rem;">Track predictions over time with exportable history in CSV format</li>
+                </ul>
+                <a href="#" class="btn">Try it Now</a>
+            </div>
+            <div class="demo-collage">
+                <div class="collage-grid">
+                    <div class="collage-item" onclick="openModal('img/rgb.jpg', 'RGB Analysis')">
+                        <img src="img/rgb.jpg" alt="RGB Analysis Interface">
+                        <div class="caption">RGB Analysis</div>
+                    </div>
+                    <div class="collage-item" onclick="openModal('img/enviroment.jpg', 'Environmental Settings')">
+                        <img src="img/enviroment.jpg" alt="Environmental Settings">
+                        <div class="caption">Environmental Settings</div>
+                    </div>
+                    <div class="collage-item" onclick="openModal('img/result.jpg', 'Prediction Results')">
+                        <img src="img/result.jpg" alt="Prediction Results">
+                        <div class="caption">Prediction Results</div>
+                    </div>
+                    <div class="collage-item" onclick="openModal('img/chat.jpg', 'Chat Assistant')">
+                        <img src="img/chat.jpg" alt="Chat Assistant">
+                        <div class="caption">Chat Assistant</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="tech-stack" id="tech-stack">
+    <div class="container">
+        <div class="section-header">
+            <h2>Technical Stack</h2>
+            <p>Built with modern technologies for performance, accuracy, and ease of use.</p>
+        </div>
+        <div class="tech-grid">
+            <div class="tech-card">
+                <div class="tech-icon">
+                    <i class="fab fa-python"></i>
+                </div>
+                <div>
+                    <h3>Python Backend</h3>
+                    <p>Powered by Streamlit and FastAPI to create a responsive and interactive experience.</p>
+                </div>
+            </div>
+            <div class="tech-card">
+                <div class="tech-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div>
+                    <h3>Machine Learning</h3>
+                    <p>Random Forest model trained to recognize maize maturity patterns from visual and environmental data.</p>
+                </div>
+            </div>
+            <div class="tech-card">
+                <div class="tech-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div>
+                    <h3>Data Visualization</h3>
+                    <p>Rich visual feedback using Matplotlib for color channel analysis and heatmaps.</p>
+                </div>
+            </div>
+            <div class="tech-card">
+                <div class="tech-icon">
+                    <i class="fas fa-server"></i>
+                </div>
+                <div>
+                    <h3>API Architecture</h3>
+                    <p>Dual-component architecture with Streamlit frontend communicating with FastAPI backend.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="container">
+        <h2>Ready to Optimize Your Maize Harvest?</h2>
+        <p>Start using the Blue Maize Maturity Predictor today to make data-driven decisions for your crops.</p>
+        <a href="https://maize-maturity-predictor-cpbmuwg9xcbevp5dt8ctdf.streamlit.app/" class="btn">Get Started for Free</a>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-info">
+                <a href="#" class="footer-logo">
+                    <i class="fas fa-seedling"></i> Maize Maturity Predictor
+                </a>
+                <p>An intelligent web based application for determining maize crop maturity using machine learning and computer vision.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Navigation</h3>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#tech-stack">Tech Stack</a></li>
+                    <li><a href="#demo">Demo</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="https://docs.streamlit.io/develop/api-reference">API Reference</a></li>
+                    <li><a href="https://github.com/Zikryyy/maize-maturity-predictor">GitHub Repository</a></li>
+                    <li><a href="#">Research Paper</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="https://github.com/Zikryyy">Github</a></li>
+                    <li><a href="https://www.linkedin.com/in/muhammad-zikry-4595a731a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">LinkedIn</a></li>
+                    <li><a href="https://www.instagram.com/m.zikryy?igsh=aXc5ZWFxcjM1bGZt">Instagram</a></li>
+                    <li><a href="https://www.facebook.com/zikry098/">Facebook</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 Zikry-Blue Maize Maturity Predictor. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<!-- Image Modal -->
+<div id="imageModal" class="image-modal">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+    <div id="modalCaption" class="modal-caption"></div>
+</div>
+
+<script>
+    // Image modal functionality
+    function openModal(imgSrc, caption) {
+        var modal = document.getElementById("imageModal");
+        var modalImg = document.getElementById("modalImage");
+        var captionText = document.getElementById("modalCaption");
+
+        modal.classList.add("show");
+        modalImg.src = imgSrc;
+        captionText.innerHTML = caption;
+
+        document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
+    }
+
+    function closeModal() {
+        var modal = document.getElementById("imageModal");
+        modal.classList.remove("show");
+        document.body.style.overflow = "auto"; // Restore scrolling
+    }
+
+    // Close modal when clicking outside the image
+    window.onclick = function(event) {
+        var modal = document.getElementById("imageModal");
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+
+    // Keyboard support - close on Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            closeModal();
+        }
+    });
+
+    // Simple scroll animation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+</body>
+</html>
