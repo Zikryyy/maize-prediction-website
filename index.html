@@ -543,6 +543,18 @@
             height: 40px;
         }
 
+        /* Scroll Animation Styles */
+        .section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* Responsive */
         @media (max-width: 992px) {
             .features-grid {
@@ -614,7 +626,7 @@
             }
         }
 
-        /* Animation */
+        /* Existing Animation */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -644,7 +656,7 @@
     </div>
 </header>
 
-<section class="hero">
+<section class="hero section">
     <div class="container">
         <div class="hero-content animated">
             <div class="hero-text">
@@ -668,7 +680,7 @@
     </div>
 </section>
 
-<section class="features" id="features">
+<section class="features section" id="features">
     <div class="container">
         <div class="section-header">
             <h2>Powerful Features</h2>
@@ -721,7 +733,7 @@
     </div>
 </section>
 
-<section class="how-it-works" id="how-it-works">
+<section class="how-it-works section" id="how-it-works">
     <div class="container">
         <div class="section-header">
             <h2>How It Works</h2>
@@ -752,7 +764,7 @@
     </div>
 </section>
 
-<section class="demo" id="demo">
+<section class="demo section" id="demo">
     <div class="container">
         <div class="demo-container">
             <div class="demo-content">
@@ -790,7 +802,7 @@
     </div>
 </section>
 
-<section class="tech-stack" id="tech-stack">
+<section class="tech-stack section" id="tech-stack">
     <div class="container">
         <div class="section-header">
             <h2>Technical Stack</h2>
@@ -837,7 +849,7 @@
     </div>
 </section>
 
-<section class="cta">
+<section class="cta section">
     <div class="container">
         <h2>Ready to Optimize Your Maize Harvest?</h2>
         <p>Start using the Blue Maize Maturity Predictor today to make data-driven decisions for your crops.</p>
@@ -845,7 +857,7 @@
     </div>
 </section>
 
-<footer>
+<footer class="section">
     <div class="container">
         <div class="footer-content">
             <div class="footer-info">
@@ -890,7 +902,7 @@
 
 <!-- Image Modal -->
 <div id="imageModal" class="image-modal">
-    <span class="close-modal" onclick="closeModal()">&times;</span>
+    <span class="close-modal" onclick="closeModal()">×</span>
     <img class="modal-content" id="modalImage">
     <div id="modalCaption" class="modal-caption"></div>
 </div>
@@ -930,15 +942,35 @@
         }
     });
 
-    // Simple scroll animation
+    // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-
             document.querySelector(this.getAttribute('href')).scrollIntoView({
                 behavior: 'smooth'
             });
         });
+    });
+
+    // Scroll reveal animation for sections
+    const sections = document.querySelectorAll('.section');
+    const observerOptions = {
+        root: null,
+        threshold: 0.1,
+        rootMargin: '0px'
+    };
+
+    const sectionObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // Stop observing once visible
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        sectionObserver.observe(section);
     });
 </script>
 </body>
