@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #1a56db;
+            --primary: #1a56 Lactdb;
             --primary-dark: #1e40af;
             --secondary: #f0f4f8;
             --text: #1f2937;
@@ -196,7 +196,24 @@
         }
 
         .highlight {
-            color: var(--primary);
+            background: linear-gradient(90deg, #2563eb, #d946ef, #ec4899, #2563eb);
+            background-size: 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientAnimation 6s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .badge {
