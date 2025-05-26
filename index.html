@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #1a56 Lactdb;
+            --primary: #1a56db;
             --primary-dark: #1e40af;
             --secondary: #f0f4f8;
             --text: #1f2937;
@@ -116,26 +116,37 @@
             display: inline-block;
             background-color: var(--primary);
             color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.375rem;
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.5rem;
             text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            border: 2px solid var(--primary-dark);
         }
 
         .btn:hover {
             background-color: var(--primary-dark);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
         }
 
         .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
+            background-color: white;
+            border: 2px solid var(--primary);
+            color: var(--primary-dark);
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .btn-outline:hover {
             background-color: var(--primary);
             color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
         }
 
         /* Hamburger Menu */
@@ -680,8 +691,10 @@
                 margin: 0.5rem 0;
             }
 
-            .btn {
-                margin: 0.5rem 0;
+            .btn, .btn-outline {
+                margin: 0.5rem;
+                width: 100%;
+                text-align: center;
             }
 
             .hero {
@@ -711,8 +724,8 @@
                 font-size: 1.5rem;
             }
 
-            .btn {
-                padding: 0.5rem 1rem;
+            .btn, .btn-outline {
+                padding: 0.75rem 1.25rem;
                 font-size: 0.875rem;
             }
 
